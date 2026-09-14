@@ -2,6 +2,10 @@
   "name": "hexagon",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev:service": "bun --watch run cmd/service.boot.ts",
+    "dev:worker": "bun --watch run cmd/worker.boot.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
