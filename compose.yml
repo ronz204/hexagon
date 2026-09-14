@@ -1,0 +1,17 @@
+name: relay
+
+include:
+  - path: docker/postgresql/compose.yml
+
+volumes:
+  relay-postgres-data:
+    driver: local
+    name: relay-postgres-data
+  relay-queues-data:
+    driver: local
+    name: relay-queues-data
+
+networks:
+  relay-network:
+    driver: bridge
+    name: relay-network
