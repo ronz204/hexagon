@@ -1,54 +1,62 @@
-<!--
-This file ships as part of the harness itself, as the fill-in skeleton for
-this doc category — copy it into a project as-is, then fill it in place
-when bootstrapping (surveyor) or updating (archivist) that project's
-persistence reference. Unlike structure.md, this file is always
-created for a bootstrapped project, even when the honest content is "not
-applicable here" (no persistent store) — state that explicitly rather than
-omitting the file, same discipline surveyor's own baseline checklist uses
-for security/performance/scalability. Data model and database
-infrastructure are kept together here, deliberately, rather than split
-against structure.md. Delete these guidance comments
-once every section holds real, grounded content. Ground every claim in the
-real schema/migrations/provisioning config (Step 0), never from memory or
-from what a similar stack usually looks like. Omit any section below that
-genuinely doesn't apply to this project's store (e.g. Access control's
-row-level policies on a store with no such feature) rather than forcing
-content into it.
--->
-
 # Database
 
-<!-- One sentence: what this file covers. If genuinely not applicable (no persistent store), say so plainly here and skip the remaining sections rather than forcing content into them. -->
+This file covers the persistence layer: what's actually provisioned today, and the data model planned on top of it. No application tables exist yet — only schema and role provisioning are real as of this writing.
 
 ---
 
 ## Schema
 
-<!-- How objects are namespaced/organized at the store level, and why — a dedicated schema/namespace vs. the engine's default, a naming convention for collections. Omit if the store has no such concept. -->
+A single application schema (distinct from the database engine's default schema) holds all application tables. Using a dedicated schema, rather than the default one, keeps application objects cleanly separated from anything the engine or an extension might place in the default schema, and gives the access-control split below a natural boundary to scope itself to.
 
 ## Access control
 
-<!-- Who/what can touch this store and how narrowly — roles or credentials split by purpose (migration vs. runtime, read vs. write), and any row-level or per-tenant isolation policy enforced by the store itself rather than trusted to application code. A table (Role | Purpose | Used by) is usually the clearest shape for the role split. State *why* the split exists (what it prevents), not just that it does. -->
+Two database roles exist, split by purpose rather than sharing one broad credential:
+
+| Role | Purpose | Used by |
+|---|---|---|
+| Schema-owning role | Owns the application schema; the only role capable of creating tables/DDL in it (schema authorization, migrations) | Migration/setup tooling, not the running application |
+| Runtime role | Granted USAGE on the schema plus default SELECT/INSERT/UPDATE on tables the schema-owning role creates — deliberately no DELETE and no DDL privilege | The running application processes (API and worker) |
+
+This split exists so a compromised or buggy application process can read and write rows but can never drop/alter a table or delete data outright — the blast radius of anything running with the application's own credentials is capped at row-level insert/update, by database-enforced privilege rather than by application-code discipline alone.
+
+A second, isolated database is provisioned automatically alongside the primary one, for automated testing — kept structurally identical (same bootstrap runs against both) but physically separate, so tests never share state with local development data.
 
 ## Data model
 
-<!-- The entities/tables/collections that matter, their relationships, and the value types (enums, domain-specific types) that constrain them. A fenced code block (schema DDL, or a structured outline) beats prose whenever the shape is structural. Entity/field names are durable architecture vocabulary — describe the shape, never the source-tree location that defines it. -->
+Not yet implemented. The planned shape, per the two bounded contexts described in overview.md:
+
+```
+ExpenseRequest (Approvals context)
+  amount: Money (amount + currency)
+  state: Pending | InReview | Approved | Rejected
+  debitAccountId, creditAccountId
+
+LedgerTransaction (Ledger context)
+  entries: Entry[] (>= 2; at least one debit, one credit)
+  each Entry: accountId, amount (Money), direction: debit | credit
+
+Outbox record (shape not yet decided)
+  event payload + published-at marker
+```
+
+Approvals and Ledger are expected to own entirely separate tables, with no foreign key or shared type between them — the only connection between the two aggregates is the integration event carried through the outbox mechanism, never a database-level relationship.
 
 ## Persistence invariants
 
-<!-- What must always hold about the data regardless of which code path writes it — uniqueness, referential integrity, a cross-entity consistency guarantee, an invariant a migration must never violate. Name and explain any non-obvious enforcement pattern relied on to hold one of these (e.g. a composite key trick), not just the invariant itself. This is usually the highest-value section: it's what actually gets checked against a future schema change. -->
+- A `LedgerTransaction`'s entries must always sum to zero across debit/credit direction (double-entry balance) — this must hold for every write path that can create or reverse a transaction, not just the primary posting use case.
+- A posted `LedgerTransaction` is immutable once written; correcting one is modeled as a new transaction, never an update to an existing row.
+- Processing the same integration event twice must never produce two `LedgerTransaction` rows for it — an idempotency guarantee not yet implemented, flagged as a specific risk to get right (see approach.md).
 
 ## Infrastructure
 
-<!-- Engine, hosting model, backup/replication approach — static facts set up once and rarely revisited. Named infrastructure roles are durable architecture vocabulary and safe to name; a specific connection string, credential, or file path is not. -->
+PostgreSQL, run via Docker Compose, local-only. A named volume backs its data directory so state survives container restarts. Bootstrap scripts run once, automatically, on first container initialization via the engine's own init-script mechanism — they provision the roles and schema described above and create the second, test-only database. No backup or replication strategy exists; this is a single local instance for development and learning purposes only.
 
 ## Access patterns
 
-<!-- How the application actually talks to this store — the convention for reads/writes, migrations, and any pattern meant to avoid a known failure mode (e.g. unbounded fetches, N+1 queries). Explain why the convention exists, not just what it is. -->
+Not yet implemented — no ORM or query layer exists on top of the provisioned database yet (see structure.md's Stack table for the planned ORM choice).
 
 ---
 
 ## Non-goals
 
-<!-- Only include this section if a scope boundary here is easy to violate by accident. Omit entirely otherwise. -->
+No additional boundary beyond what Access control and Data model already state.
