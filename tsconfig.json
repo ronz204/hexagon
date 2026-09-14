@@ -1,23 +1,34 @@
 {
+  "include": [
+    "cmd/**/*",
+    "source/**/*",
+    "drizzle/**/*",
+    "testing/**/*",
+    "**.config.ts",
+  ],
   "compilerOptions": {
-    // Environment setup & latest features
+    // Environment - Latest JavaScript features
     "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "Preserve",
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "types": ["bun"],
+    "module": "ESNext",
 
-    // Bundler mode
+    // Bundler mode - Modern module resolution for Bun
+    "moduleDetection": "force",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
-    // Best practices
+    // Type checking - Strict mode enabled
     "strict": true,
     "skipLibCheck": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Bun runtime types
+    "types": ["@types/bun"],
+
+    // Best practices - Additional safety checks
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
@@ -25,6 +36,13 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+
+    // Module resolution - Support for absolute imports
+    "paths": {
+      "@env": ["./source/env.ts"],
+      "@app/*": ["./source/app/*"],
+      "@core/*": ["./source/core/*"],
+    },
   }
 }

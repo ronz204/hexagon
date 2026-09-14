@@ -4,6 +4,10 @@
   "workspaces": {
     "": {
       "name": "hexagon",
+      "dependencies": {
+        "dockdi": "^1.0.1",
+        "uuidv7": "^1.2.1",
+      },
       "devDependencies": {
         "@types/bun": "latest",
       },
@@ -19,8 +23,12 @@
 
     "bun-types": ["bun-types@1.4.2", "", { "dependencies": { "@types/node": "*" } }, "sha512-bxV1FgK7yBIzjRe5zBozIM4Bem11ZJcCXSrjWRG3YWLt8yFDePu4cLjpebO8OvPeIE9trbyPF4fuj3Cia4Fj3w=="],
 
+    "dockdi": ["dockdi@1.0.1", "", {}, "sha512-BO+2+TCMPFXXu30kA+qTAT5LDMGW4ZhiZRNtui5QUazKbNEcjrv/zqVm3BCCuijWOd/9u8SWDdKMsLHvjeME6w=="],
+
     "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "undici-types": ["undici-types@8.9.0", "", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
+
+    "uuidv7": ["uuidv7@1.2.1", "", { "bin": { "uuidv7": "cli.js" } }, "sha512-4kPkK3/XTQW9Hbm4CaqfICn+kY9LJtDVEOfgsRRra/+n2Ofg4NqzRFceAkxvQ/Ud/6BpHOPzj8cirqM7TzTN5Q=="],
   }
 }

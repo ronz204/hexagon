@@ -1,6 +1,5 @@
 {
   "name": "hexagon",
-  "module": "index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
@@ -8,5 +7,9 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "dockdi": "^1.0.1",
+    "uuidv7": "^1.2.1"
   }
 }
