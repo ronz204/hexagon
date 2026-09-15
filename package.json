@@ -13,7 +13,10 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@elysia/cors": "^1.4.2",
+    "@elysia/openapi": "^1.4.16",
     "dockdi": "^1.0.1",
+    "elysia": "^1.4.30",
     "uuidv7": "^1.2.1",
     "zod": "^4.6.5"
   }
