@@ -13,14 +13,14 @@ A learning proof-of-concept for event-driven architecture inside a modular monol
 | `.claude/agents/` | Bounded, repeatable subagent tasks with their own tool access (none defined yet) |
 | `.claude/skills/` | Capabilities pulled in across tasks — this project's own bootstrap/interview/write/verify pipeline (`surveyor`, `specifier`, `archivist`, `sentinel`) |
 | `.claude/settings.json` | Permission policy — see Permissions below |
-| `deltas/` | Per-slice spec/design/plan files: `<slice>.spec.md`, optional `<slice>.design.md`, optional `<slice>.plan.md` (none specced yet) |
+| `deltas/` | Per-slice spec/design/plan files: `<slice>.spec.md`, optional `<slice>.design.md`, optional `<slice>.plan.md` |
 
 ## Repo layout
 
 | Path | Purpose |
 |---|---|
 | `cmd/` | Process entrypoints — the API process and the worker process (outbox relay + queue consumer) |
-| `source/` | Application source; only a placeholder exists so far |
+| `source/` | Application source — bounded-context domain code lives under `source/core/` |
 | `docker/database/` | Database container definition, bootstrap scripts, env template |
 | `compose.yml` | Root Docker Compose entrypoint |
 | `VISION.md` | The project's own vision/approach source document |
