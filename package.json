@@ -7,7 +7,9 @@
     "dev:worker": "bun --watch run cmd/worker.boot.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@biomejs/biome": "2.5.13",
+    "@types/bun": "latest",
+    "vitest": "^5.0.1"
   },
   "peerDependencies": {
     "typescript": "^5"
