@@ -1,4 +1,4 @@
 export enum EntryDirection {
-  Debit = "Debit",
-  Credit = "Credit",
-};
+	Debit = "Debit",
+	Credit = "Credit",
+}
