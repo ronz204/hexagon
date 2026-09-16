@@ -70,6 +70,15 @@ export class LedgerTransaction {
 		return transaction;
 	}
 
+	static reconstitute(
+		id: LedgerTransactionId,
+		entries: Entry[],
+		reversesTransactionId: LedgerTransactionId | undefined,
+		postedAt: Date,
+	): LedgerTransaction {
+		return new LedgerTransaction(id, entries, reversesTransactionId, postedAt);
+	}
+
 	getEntries(): Entry[] {
 		return [...this.entries];
 	}

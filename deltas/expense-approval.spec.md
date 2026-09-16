@@ -8,10 +8,10 @@ A person submits an expense request for a given amount. Before it can be approve
 
 ## Scope
 
-This slice owns the expense-request aggregate itself: its state machine, its approval invariants, and the domain events it raises — the pure domain layer, with no persistence, no use-case/orchestration layer, and no outbound publishing yet.
+This slice owns the expense-request aggregate itself — its state machine, its approval invariants, and the domain events it raises — plus the persistence contract (the repository port) a future adapter must satisfy to store and reload it. It does not yet own a use-case/orchestration layer or outbound publishing.
 
 Explicit non-goals for this slice:
-- Persistence (a repository) — not built yet.
+- A concrete repository implementation — this slice defines the persistence contract (the interface) only; the infrastructure adapter that actually satisfies it against a real datastore is not built yet.
 - Use cases / orchestration (an application layer that drives the aggregate from an inbound request) — not built yet.
 - The actual cross-context integration event that reaches the ledger side via the outbox mechanism — not built yet; this slice only produces the same-transaction domain event that a future outbox layer would read from.
 - Authenticating who is allowed to approve — the project has no real authentication; an approver is identified by an opaque string only.
@@ -29,8 +29,20 @@ The aggregate exposes:
 | `reject(reason?)` | `Pending`/`InReview → Rejected`. Raises `ExpenseRejected`. |
 | `getState()` | Returns the current state. |
 | `pullDomainEvents()` | Drains and returns every domain event raised since the last call — the same-transaction events a persistence/outbox layer is expected to read and clear on each write. |
+| `reconstitute(id, amount, state, debitAccountId, creditAccountId, approvals)` (static) | Rebuilds an existing request from state a repository already loaded from storage — sets every field exactly as given, performs no invariant validation, and raises no domain event. Exists solely for a repository to rehydrate this aggregate; it is not an alternate construction path for application code, which must always go through `submit`. |
 
 `ExpenseApproved`'s payload carries `requestId`, `amount`, `debitAccountId`, `creditAccountId`, the set of `approvals` recorded, and `approvedAt` — enough for a future outbox/use-case layer to build the cross-context integration event without re-reading the aggregate's internal state.
+
+### Repository contract
+
+The `ExpenseRequestRepository` port:
+
+| Member | Behavior |
+|---|---|
+| `save(request)` | Persists the given request's full current state (id, amount, state, destination accounts, recorded approvals). |
+| `findById(id)` | Returns the request with the given id, rebuilt via `reconstitute`, or nothing if no request with that id has been saved. |
+
+No other method is defined yet — no listing, no query by state or account, matching this slice's own non-goals.
 
 ## Invariants
 
@@ -42,9 +54,13 @@ The aggregate exposes:
 - If the amount does not exceed the threshold, a single approval at either level is sufficient to reach `Approved`.
 - Every state transition raises exactly one domain event describing it, in the same transaction as the state change; `Approved` additionally carries everything a future integration event needs (see Contract).
 - This slice's own identifier types (for the request and for a destination account) are UUID-backed via the shared kernel's identity base, but are distinct nominal types from any identically-shaped identifier defined by another bounded context — no identifier type is shared across a bounded-context boundary.
+- `reconstitute` never re-validates and never raises a domain event — it trusts that the state it's given was already valid when `save` persisted it, since that state can only have been produced by `submit`/`assignAccounts`/`recordApproval`/`reject`, which do validate. This is what keeps rehydration cheap and keeps a later invariant tightening from breaking replay of already-persisted rows.
+- The repository contract exposes exactly `save` and `findById` today; neither takes a transaction/unit-of-work parameter (see Deferred / Open questions).
 
 ## Deferred / Open questions
 
+- Whether `save` (and any future sibling write) should accept an explicit transaction/unit-of-work handle, so a future use-case layer can persist the aggregate and its outbox record atomically, is deferred to the outbox phase of the roadmap — not decided by this contract.
+- The concrete adapter implementing `ExpenseRequestRepository` against the real datastore doesn't exist yet.
 - The actual integration event that crosses to the ledger side via the outbox mechanism doesn't exist yet — `ExpenseApproved` is currently a domain event only. When the outbox/relay is built, decide whether the integration event is a direct translation of this payload or remapped again at that boundary.
 - An approver is an unauthenticated opaque identifier — there's no check on who is allowed to approve at which level. Revisit only if/when the project's non-goal of skipping real authentication changes.
 - There's no link between a `Rejected` (or `Approved`) request and any future resubmission — resubmitting means creating a brand-new request with a new identity. Revisit if the workflow ever needs to track that lineage.
@@ -59,4 +75,4 @@ Once a test runner exists, each invariant above should have a corresponding inva
 
 ---
 
-Last updated: 2026-09-15.
+Last updated: 2026-09-16.

@@ -43,6 +43,22 @@ export class ExpenseRequest {
 		return request;
 	}
 
+	static reconstitute(
+		id: ExpenseRequestId,
+		amount: Money,
+		state: ExpenseState,
+		debitAccountId: AccountId | undefined,
+		creditAccountId: AccountId | undefined,
+		approvals: Approval[],
+	): ExpenseRequest {
+		const request = new ExpenseRequest(id, amount);
+		request.state = state;
+		request.debitAccountId = debitAccountId;
+		request.creditAccountId = creditAccountId;
+		request.approvals.push(...approvals);
+		return request;
+	}
+
 	getState(): ExpenseState {
 		return this.state;
 	}
