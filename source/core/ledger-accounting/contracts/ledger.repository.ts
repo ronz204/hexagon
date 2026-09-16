@@ -1,5 +1,5 @@
-import type { LedgerTransaction } from "../contexts/ledger.aggregate";
-import type { LedgerTransactionId } from "../contexts/ledger.vos";
+import type { LedgerTransactionId } from "@core/ledger-accounting/contexts/ledger.vos";
+import type { LedgerTransaction } from "@core/ledger-accounting/contexts/ledger.aggregate";
 
 export interface LedgerTransactionRepository {
 	save(transaction: LedgerTransaction): Promise<void>;
