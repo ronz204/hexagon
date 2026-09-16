@@ -42,8 +42,10 @@
 		"paths": {
 			"@env": ["./source/env.ts"],
 			"@app/*": ["./source/app/*"],
+			"@dal/*": ["./drizzle/dal/*"],
 			"@core/*": ["./source/core/*"],
-			"@tests/*": ["./testing/utils/*"]
+			"@tests/*": ["./testing/utils/*"],
+			"@db/*": ["./drizzle/database/*"]
 		}
 	}
 }
