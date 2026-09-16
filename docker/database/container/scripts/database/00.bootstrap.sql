@@ -9,3 +9,12 @@ CREATE SCHEMA IF NOT EXISTS core AUTHORIZATION sampler;
 GRANT USAGE ON SCHEMA core TO runner;
 ALTER DEFAULT PRIVILEGES FOR ROLE sampler IN SCHEMA core
   GRANT SELECT, INSERT, UPDATE ON TABLES TO runner;
+
+DO $$
+DECLARE
+  target_db text := current_database();
+BEGIN
+  EXECUTE format('GRANT CONNECT ON DATABASE %I TO sampler, runner', target_db);
+  EXECUTE format('GRANT CREATE ON DATABASE %I TO sampler', target_db);
+END
+$$;

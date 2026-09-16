@@ -2,9 +2,7 @@ name: relay
 
 include:
   - path: docker/database/compose.yml
-    env_file: docker/database/container/.env.local
   - path: docker/messaging/compose.yml
-    env_file: docker/messaging/container/.env.local
 
 volumes:
   relay-postgres-data:

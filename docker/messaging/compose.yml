@@ -2,6 +2,7 @@ services:
   relay-redis:
     image: redis:8.8.2-alpine
     container_name: relay-redis
+    env_file: ./container/.env.local
     restart: unless-stopped
     command:
       - redis-server
