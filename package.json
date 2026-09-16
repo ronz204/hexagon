@@ -3,11 +3,13 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"lint": "biome check .",
 		"format": "biome format --write .",
 		"lint:fix": "biome check --write .",
-		"dev:service": "bun --watch run cmd/service.boot.ts",
-		"dev:worker": "bun --watch run cmd/worker.boot.ts"
+		"dev:worker": "bun --watch run cmd/worker.boot.ts",
+		"dev:service": "bun --watch run cmd/service.boot.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.13",

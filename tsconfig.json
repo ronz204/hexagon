@@ -42,7 +42,8 @@
 		"paths": {
 			"@env": ["./source/env.ts"],
 			"@app/*": ["./source/app/*"],
-			"@core/*": ["./source/core/*"]
+			"@core/*": ["./source/core/*"],
+			"@tests/*": ["./testing/utils/*"]
 		}
 	}
 }
