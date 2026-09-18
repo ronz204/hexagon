@@ -4,12 +4,12 @@ import {
 	type ExpenseRequestRepository,
 } from "@core/expense-approval";
 import type { Database } from "@drizz/dal/drizzle.client";
-import { ExpenseRequestMapper } from "./expense-request.mapper";
 import {
 	expenseApprovals,
 	expenseRequests,
 } from "@drizz/database/schemas/core.schema";
 import { eq } from "drizzle-orm";
+import { ExpenseRequestMapper } from "./expense-request.mapper";
 
 export class DrizzleExpenseRequestRepository
 	implements ExpenseRequestRepository
