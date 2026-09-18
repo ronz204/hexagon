@@ -1,9 +1,9 @@
-import { Money } from "@core/common-domain/contexts/money.vos";
-import { ExpenseRequest } from "@core/expense-approval/contexts/expense.aggregate";
+import { Money } from "@core/common-domain";
 import {
 	AccountId,
+	ExpenseRequest,
 	ExpenseRequestId,
-} from "@core/expense-approval/contexts/expense.vos";
+} from "@core/expense-approval";
 import { aUuid } from "./uuid.fixtures";
 
 export function anExpenseRequestId(): ExpenseRequestId {

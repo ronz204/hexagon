@@ -1,28 +1,24 @@
-import { ExpenseRequest } from "@core/expense-approval/contexts/expense.aggregate";
 import {
 	ApprovalLevel,
-	ExpenseState,
-} from "@core/expense-approval/contexts/expense.enums";
-import {
 	DuplicateApprovalError,
+	ExpenseApproved,
+	ExpenseMovedToReview,
+	ExpenseRejected,
+	ExpenseRequest,
+	ExpenseState,
+	ExpenseSubmitted,
 	InvalidAmountError,
 	InvalidStateTransitionError,
 	MissingDestinationAccountsError,
 	OutOfOrderApprovalError,
-} from "@core/expense-approval/contexts/expense.errors";
-import {
-	ExpenseApproved,
-	ExpenseMovedToReview,
-	ExpenseRejected,
-	ExpenseSubmitted,
-} from "@core/expense-approval/contexts/expense.events";
+} from "@core/expense-approval";
 import {
 	anAccountId,
 	anAmount,
 	anExpenseRequestId,
 	anExpenseRequestReadyForApproval,
 	aSubmittedExpenseRequest,
-} from "@tests/fixtures/expense.fixtures";
+} from "@tests/utils/fixtures/expense.fixtures";
 import { describe, expect, it } from "vitest";
 
 describe("ExpenseRequest.submit", () => {

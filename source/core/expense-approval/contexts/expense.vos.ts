@@ -1,7 +1,4 @@
-import {
-	assertUuid,
-	UniqueUUID,
-} from "@core/common-domain/contexts/identifier.vos";
+import { assertUuid, UniqueUUID } from "@core/common-domain";
 
 export class ExpenseRequestId extends UniqueUUID {
 	private constructor(value: string) {

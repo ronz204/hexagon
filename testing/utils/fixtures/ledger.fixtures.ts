@@ -1,10 +1,10 @@
-import { Money } from "@core/common-domain/contexts/money.vos";
-import { EntryDirection } from "@core/ledger-accounting/contexts/ledger.enums";
+import { Money } from "@core/common-domain";
 import {
 	AccountId,
 	Entry,
+	EntryDirection,
 	LedgerTransactionId,
-} from "@core/ledger-accounting/contexts/ledger.vos";
+} from "@core/ledger-accounting";
 import { aUuid } from "./uuid.fixtures";
 
 export function aLedgerTransactionId(): LedgerTransactionId {

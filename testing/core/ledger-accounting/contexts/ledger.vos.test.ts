@@ -1,13 +1,12 @@
-import { InvalidIdentifierError } from "@core/common-domain/contexts/identifier.errors";
-import { Money } from "@core/common-domain/contexts/money.vos";
-import { EntryDirection } from "@core/ledger-accounting/contexts/ledger.enums";
-import { InvalidEntryAmountError } from "@core/ledger-accounting/contexts/ledger.errors";
+import { InvalidIdentifierError, Money } from "@core/common-domain";
 import {
 	AccountId,
 	Entry,
+	EntryDirection,
+	InvalidEntryAmountError,
 	LedgerTransactionId,
-} from "@core/ledger-accounting/contexts/ledger.vos";
-import { aUuid } from "@tests/fixtures/uuid.fixtures";
+} from "@core/ledger-accounting";
+import { aUuid } from "@tests/utils/fixtures/uuid.fixtures";
 import { describe, expect, it } from "vitest";
 
 describe("LedgerTransactionId", () => {

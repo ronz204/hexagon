@@ -1,21 +1,19 @@
-import { Money } from "@core/common-domain/contexts/money.vos";
-import { LedgerTransaction } from "@core/ledger-accounting/contexts/ledger.aggregate";
-import { EntryDirection } from "@core/ledger-accounting/contexts/ledger.enums";
+import { Money } from "@core/common-domain";
 import {
+	Entry,
+	EntryDirection,
+	LedgerTransaction,
 	MissingEntryDirectionError,
-	UnbalancedTransactionError,
-} from "@core/ledger-accounting/contexts/ledger.errors";
-import {
 	TransactionPosted,
 	TransactionReversed,
-} from "@core/ledger-accounting/contexts/ledger.events";
-import { Entry } from "@core/ledger-accounting/contexts/ledger.vos";
+	UnbalancedTransactionError,
+} from "@core/ledger-accounting";
 import {
 	aBalancedEntryPair,
 	aLedgerAccountId,
 	aLedgerTransactionId,
 	anEntry,
-} from "@tests/fixtures/ledger.fixtures";
+} from "@tests/utils/fixtures/ledger.fixtures";
 import { describe, expect, it } from "vitest";
 
 describe("LedgerTransaction.post", () => {

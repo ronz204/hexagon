@@ -1,4 +1,4 @@
-import type { Money } from "@core/common-domain/contexts/money.vos";
+import type { Money } from "@core/common-domain";
 import { EntryDirection } from "./ledger.enums";
 import {
 	MissingEntryDirectionError,

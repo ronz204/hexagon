@@ -1,9 +1,9 @@
-import { InvalidIdentifierError } from "@core/common-domain/contexts/identifier.errors";
 import {
 	assertUuid,
+	InvalidIdentifierError,
 	UniqueUUID,
-} from "@core/common-domain/contexts/identifier.vos";
-import { aUuid } from "@tests/fixtures/uuid.fixtures";
+} from "@core/common-domain";
+import { aUuid } from "@tests/utils/fixtures/uuid.fixtures";
 import { describe, expect, it } from "vitest";
 
 class TestId extends UniqueUUID {

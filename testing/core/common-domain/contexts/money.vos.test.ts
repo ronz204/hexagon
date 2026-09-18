@@ -1,8 +1,8 @@
 import {
 	CurrencyMismatchError,
 	InvalidMoneyError,
-} from "@core/common-domain/contexts/money.errors";
-import { Money } from "@core/common-domain/contexts/money.vos";
+	Money,
+} from "@core/common-domain";
 import { describe, expect, it } from "vitest";
 
 describe("Money.of", () => {

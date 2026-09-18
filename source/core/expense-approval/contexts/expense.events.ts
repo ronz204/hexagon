@@ -1,4 +1,4 @@
-import type { Money } from "@core/common-domain/contexts/money.vos";
+import type { Money } from "@core/common-domain";
 import type { ApprovalLevel } from "./expense.enums";
 import type { AccountId, ExpenseRequestId } from "./expense.vos";
 

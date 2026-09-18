@@ -1,8 +1,4 @@
-import {
-	assertUuid,
-	UniqueUUID,
-} from "@core/common-domain/contexts/identifier.vos";
-import type { Money } from "@core/common-domain/contexts/money.vos";
+import { assertUuid, type Money, UniqueUUID } from "@core/common-domain";
 import type { EntryDirection } from "./ledger.enums";
 import { InvalidEntryAmountError } from "./ledger.errors";
 

@@ -1,9 +1,6 @@
-import { InvalidIdentifierError } from "@core/common-domain/contexts/identifier.errors";
-import {
-	AccountId,
-	ExpenseRequestId,
-} from "@core/expense-approval/contexts/expense.vos";
-import { aUuid } from "@tests/fixtures/uuid.fixtures";
+import { InvalidIdentifierError } from "@core/common-domain";
+import { AccountId, ExpenseRequestId } from "@core/expense-approval";
+import { aUuid } from "@tests/utils/fixtures/uuid.fixtures";
 import { describe, expect, it } from "vitest";
 
 describe("ExpenseRequestId", () => {

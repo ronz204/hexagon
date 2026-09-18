@@ -1,5 +1,4 @@
-import { Approval } from "@core/expense-approval/contexts/expense.entities";
-import { ApprovalLevel } from "@core/expense-approval/contexts/expense.enums";
+import { Approval, ApprovalLevel } from "@core/expense-approval";
 import { describe, expect, it } from "vitest";
 
 describe("Approval.of", () => {
