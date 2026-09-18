@@ -3,9 +3,9 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
 	resolve: {
 		alias: {
+			"@tests": "./testing",
 			"@app": "./source/capp",
 			"@core": "./source/core",
-			"@tests": "./testing/utils",
 		},
 	},
 	test: {
