@@ -8,7 +8,7 @@
         "@elysia/cors": "^1.4.2",
         "@elysia/openapi": "^1.4.16",
         "bullmq": "^6.3.6",
-        "dockdi": "^1.0.1",
+        "dockdi": "1.0.2",
         "drizzle-orm": "^1.0.0-rc.4",
         "drizzle-seed": "^1.0.0-rc.4",
         "elysia": "^1.4.30",
@@ -203,7 +203,7 @@
 
     "detect-libc": ["detect-libc@2.1.2", "", {}, "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="],
 
-    "dockdi": ["dockdi@1.0.1", "", {}, "sha512-BO+2+TCMPFXXu30kA+qTAT5LDMGW4ZhiZRNtui5QUazKbNEcjrv/zqVm3BCCuijWOd/9u8SWDdKMsLHvjeME6w=="],
+    "dockdi": ["dockdi@1.0.2", "", {}, "sha512-/qGHXNFeCtxOCiLFuMdaTOf6Cfd+GFSUFYgUcerwFQpZLJPSEhYx4A9A9HWDjBy5Sn08DQbfi3Ei8f4paz9poA=="],
 
     "drizzle-kit": ["drizzle-kit@1.0.0-rc.4", "", { "dependencies": { "@drizzle-team/brocli": "^0.12.0", "@js-temporal/polyfill": "^0.5.1", "esbuild": "^0.25.10", "get-tsconfig": "^4.13.6", "jiti": "^2.6.1" }, "bin": { "drizzle-kit": "bin.cjs" } }, "sha512-KZCpjRyu+oYHLj/UJogfFlOkWhHVkaEI2EOT1U3NDVXUzLoTyPjqwFxwOrlQxsY6jzRyxcz4EacqboGfhEeYrA=="],
 
