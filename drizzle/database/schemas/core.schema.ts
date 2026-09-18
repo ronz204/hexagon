@@ -1,4 +1,4 @@
-import { generateId } from "@db/helpers/column.helper";
+import { generateId } from "@drizz/database/helpers/column.helper";
 import * as pg from "drizzle-orm/pg-core";
 
 export const core = pg.pgSchema("core").existing();
@@ -22,16 +22,24 @@ export const expenseRequests = core.table("expense_requests", {
 		.defaultNow(),
 });
 
-export const expenseApprovals = core.table("expense_approvals", {
-	id: pg.uuid("id").primaryKey().$defaultFn(generateId),
-	expenseRequestId: pg
-		.uuid("expense_request_id")
-		.notNull()
-		.references(() => expenseRequests.id),
-	level: pg.text("level").notNull(),
-	approverId: pg.text("approver_id").notNull(),
-	decidedAt: pg.timestamp("decided_at", { withTimezone: true }).notNull(),
-}, (table) => [pg.unique("expense_approvals_request_level_key").on(table.expenseRequestId, table.level),]);
+export const expenseApprovals = core.table(
+	"expense_approvals",
+	{
+		id: pg.uuid("id").primaryKey().$defaultFn(generateId),
+		expenseRequestId: pg
+			.uuid("expense_request_id")
+			.notNull()
+			.references(() => expenseRequests.id),
+		level: pg.text("level").notNull(),
+		approverId: pg.text("approver_id").notNull(),
+		decidedAt: pg.timestamp("decided_at", { withTimezone: true }).notNull(),
+	},
+	(table) => [
+		pg
+			.unique("expense_approvals_request_level_key")
+			.on(table.expenseRequestId, table.level),
+	],
+);
 
 export const expenseOutbox = core.table("expense_outbox", {
 	id: pg.uuid("id").primaryKey().$defaultFn(generateId),
