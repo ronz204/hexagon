@@ -31,7 +31,7 @@ export const expenseApprovals = core.table("expense_approvals", {
 	level: pg.text("level").notNull(),
 	approverId: pg.text("approver_id").notNull(),
 	decidedAt: pg.timestamp("decided_at", { withTimezone: true }).notNull(),
-});
+}, (table) => [pg.unique("expense_approvals_request_level_key").on(table.expenseRequestId, table.level),]);
 
 export const expenseOutbox = core.table("expense_outbox", {
 	id: pg.uuid("id").primaryKey().$defaultFn(generateId),

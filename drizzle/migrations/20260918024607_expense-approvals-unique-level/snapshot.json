@@ -1,8 +1,8 @@
 {
 	"version": "8",
 	"dialect": "postgres",
-	"id": "50e1b32a-42aa-48d2-9e67-2b49cce7ffbc",
-	"prevIds": ["00000000-0000-0000-0000-000000000000"],
+	"id": "a02302bc-b0c7-4ef8-a523-7162ab882bbf",
+	"prevIds": ["50e1b32a-42aa-48d2-9e67-2b49cce7ffbc"],
 	"ddl": [
 		{
 			"isRlsEnabled": false,
@@ -568,6 +568,15 @@
 			"schema": "core",
 			"table": "ledger_transactions",
 			"entityType": "pks"
+		},
+		{
+			"nameExplicit": true,
+			"columns": ["expense_request_id", "level"],
+			"nullsNotDistinct": false,
+			"name": "expense_approvals_request_level_key",
+			"entityType": "uniques",
+			"schema": "core",
+			"table": "expense_approvals"
 		},
 		{
 			"nameExplicit": false,
