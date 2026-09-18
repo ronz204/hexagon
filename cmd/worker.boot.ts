@@ -1,9 +1,9 @@
-import { db } from "@drizz/dal/drizzle.ctx";
-import { DrizzleDock } from "@drizz/dal/drizzle.dock";
+import { db } from "@drizz/dal/drizzle.client";
 import {
+	DrizzleDock,
 	ExpenseRequestRepositoryToken,
 	LedgerTransactionRepositoryToken,
-} from "@drizz/dal/drizzle.tokens";
+} from "@drizz/dal/drizzle.dock";
 import { Container } from "dockdi";
 
 const container = new Container().load(DrizzleDock.build(db));
