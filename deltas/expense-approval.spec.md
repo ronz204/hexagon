@@ -28,8 +28,9 @@ The aggregate exposes:
 | `recordApproval(level, approverId, threshold)` | Records one approval at one level. `threshold` is supplied by the caller on every call, not stored on the aggregate. May transition the request to `Approved` (see Invariants). Raises `ExpenseApproved` only when that transition happens. |
 | `reject(reason?)` | `Pending`/`InReview → Rejected`. Raises `ExpenseRejected`. |
 | `getState()` | Returns the current state. |
+| `getSnapshot()` | Returns an `ExpenseRequestSnapshot` — `{ id, amount, state, debitAccountId, creditAccountId, approvals }` — a full copy of the request's current persistable state, in the same shape `reconstitute` accepts back. Exists so a repository can read everything it needs to persist through one call instead of one accessor per field. |
 | `pullDomainEvents()` | Drains and returns every domain event raised since the last call — the same-transaction events a persistence/outbox layer is expected to read and clear on each write. |
-| `reconstitute(id, amount, state, debitAccountId, creditAccountId, approvals)` (static) | Rebuilds an existing request from state a repository already loaded from storage — sets every field exactly as given, performs no invariant validation, and raises no domain event. Exists solely for a repository to rehydrate this aggregate; it is not an alternate construction path for application code, which must always go through `submit`. |
+| `reconstitute(snapshot)` (static) | Rebuilds an existing request from an `ExpenseRequestSnapshot` a repository already loaded from storage — sets every field exactly as given, performs no invariant validation, and raises no domain event. Exists solely for a repository to rehydrate this aggregate; it is not an alternate construction path for application code, which must always go through `submit`. |
 
 `ExpenseApproved`'s payload carries `requestId`, `amount`, `debitAccountId`, `creditAccountId`, the set of `approvals` recorded, and `approvedAt` — enough for a future outbox/use-case layer to build the cross-context integration event without re-reading the aggregate's internal state.
 
@@ -75,4 +76,4 @@ Once a test runner exists, each invariant above should have a corresponding inva
 
 ---
 
-Last updated: 2026-09-16.
+Last updated: 2026-09-17.

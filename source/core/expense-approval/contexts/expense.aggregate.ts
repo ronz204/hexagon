@@ -22,6 +22,15 @@ type DomainEvent =
 	| ExpenseApproved
 	| ExpenseRejected;
 
+export interface ExpenseRequestSnapshot {
+	readonly id: ExpenseRequestId;
+	readonly amount: Money;
+	readonly state: ExpenseState;
+	readonly debitAccountId: AccountId | undefined;
+	readonly creditAccountId: AccountId | undefined;
+	readonly approvals: Approval[];
+}
+
 export class ExpenseRequest {
 	private state: ExpenseState;
 	private debitAccountId?: AccountId;
@@ -43,24 +52,28 @@ export class ExpenseRequest {
 		return request;
 	}
 
-	static reconstitute(
-		id: ExpenseRequestId,
-		amount: Money,
-		state: ExpenseState,
-		debitAccountId: AccountId | undefined,
-		creditAccountId: AccountId | undefined,
-		approvals: Approval[],
-	): ExpenseRequest {
-		const request = new ExpenseRequest(id, amount);
-		request.state = state;
-		request.debitAccountId = debitAccountId;
-		request.creditAccountId = creditAccountId;
-		request.approvals.push(...approvals);
+	static reconstitute(snapshot: ExpenseRequestSnapshot): ExpenseRequest {
+		const request = new ExpenseRequest(snapshot.id, snapshot.amount);
+		request.state = snapshot.state;
+		request.debitAccountId = snapshot.debitAccountId;
+		request.creditAccountId = snapshot.creditAccountId;
+		request.approvals.push(...snapshot.approvals);
 		return request;
 	}
 
 	getState(): ExpenseState {
 		return this.state;
+	}
+
+	getSnapshot(): ExpenseRequestSnapshot {
+		return {
+			id: this.id,
+			amount: this.amount,
+			state: this.state,
+			debitAccountId: this.debitAccountId,
+			creditAccountId: this.creditAccountId,
+			approvals: [...this.approvals],
+		};
 	}
 
 	pullDomainEvents(): DomainEvent[] {
