@@ -3,7 +3,7 @@ import {
 	type LedgerTransactionId,
 	type LedgerTransactionRepository,
 } from "@core/ledger-accounting";
-import type { Database } from "@drizz/dal/drizzle.client";
+import type { Database } from "@drizz/dal/drizzle.unit";
 import {
 	ledgerEntries,
 	ledgerTransactions,

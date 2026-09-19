@@ -3,7 +3,7 @@ import {
 	type ExpenseRequestId,
 	type ExpenseRequestRepository,
 } from "@core/expense-approval";
-import type { Database } from "@drizz/dal/drizzle.client";
+import type { Database } from "@drizz/dal/drizzle.unit";
 import {
 	expenseApprovals,
 	expenseRequests,

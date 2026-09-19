@@ -1,6 +1,6 @@
 import type { ExpenseRequestRepository } from "@core/expense-approval";
 import type { LedgerTransactionRepository } from "@core/ledger-accounting";
-import type { Database } from "@drizz/dal/drizzle.client";
+import type { Database } from "@drizz/dal/drizzle.unit";
 import type { Module } from "dockdi";
 import { token } from "dockdi";
 import { DrizzleExpenseRequestRepository } from "./expense-approval/expense-request.repository";

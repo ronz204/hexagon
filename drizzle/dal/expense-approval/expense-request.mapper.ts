@@ -15,8 +15,8 @@ import type {
 type ExpenseRequestRow = typeof expenseRequests.$inferSelect;
 type ExpenseApprovalRow = typeof expenseApprovals.$inferSelect;
 
-export const ExpenseRequestMapper = {
-	toRow(snapshot: ExpenseRequestSnapshot) {
+export class ExpenseRequestMapper {
+	static toRow(snapshot: ExpenseRequestSnapshot) {
 		return {
 			id: snapshot.id.value,
 			amount: snapshot.amount.amount,
@@ -25,18 +25,18 @@ export const ExpenseRequestMapper = {
 			debitAccountId: snapshot.debitAccountId?.value,
 			creditAccountId: snapshot.creditAccountId?.value,
 		};
-	},
+	}
 
-	toApprovalRows(snapshot: ExpenseRequestSnapshot) {
+	static toApprovalRows(snapshot: ExpenseRequestSnapshot) {
 		return snapshot.approvals.map((approval) => ({
 			expenseRequestId: snapshot.id.value,
 			level: approval.level,
 			approverId: approval.approverId,
 			decidedAt: approval.decidedAt,
 		}));
-	},
+	}
 
-	toSnapshot(
+	static toSnapshot(
 		id: ExpenseRequestId,
 		row: ExpenseRequestRow,
 		approvalRows: ExpenseApprovalRow[],
@@ -59,5 +59,5 @@ export const ExpenseRequestMapper = {
 				),
 			),
 		};
-	},
-};
+	}
+}

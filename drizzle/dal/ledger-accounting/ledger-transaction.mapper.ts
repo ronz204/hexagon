@@ -14,16 +14,16 @@ import type {
 type LedgerTransactionRow = typeof ledgerTransactions.$inferSelect;
 type LedgerEntryRow = typeof ledgerEntries.$inferSelect;
 
-export const LedgerTransactionMapper = {
-	toTransactionRow(transaction: LedgerTransaction) {
+export class LedgerTransactionMapper {
+	static toTransactionRow(transaction: LedgerTransaction) {
 		return {
 			id: transaction.id.value,
 			reversesTransactionId: transaction.getReversesTransactionId()?.value,
 			postedAt: transaction.postedAt,
 		};
-	},
+	}
 
-	toEntryRows(transaction: LedgerTransaction) {
+	static toEntryRows(transaction: LedgerTransaction) {
 		return transaction.getEntries().map((entry) => ({
 			transactionId: transaction.id.value,
 			accountId: entry.accountId.value,
@@ -31,9 +31,9 @@ export const LedgerTransactionMapper = {
 			currency: entry.amount.currency,
 			direction: entry.direction,
 		}));
-	},
+	}
 
-	toEntries(entryRows: LedgerEntryRow[]) {
+	static toEntries(entryRows: LedgerEntryRow[]) {
 		return entryRows.map((entryRow) =>
 			Entry.of(
 				AccountId.of(entryRow.accountId),
@@ -41,11 +41,11 @@ export const LedgerTransactionMapper = {
 				entryRow.direction as EntryDirection,
 			),
 		);
-	},
+	}
 
-	toReversesTransactionId(row: LedgerTransactionRow) {
+	static toReversesTransactionId(row: LedgerTransactionRow) {
 		return row.reversesTransactionId
 			? LedgerTransactionId.of(row.reversesTransactionId)
 			: undefined;
-	},
-};
+	}
+}
